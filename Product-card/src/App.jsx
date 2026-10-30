@@ -12,7 +12,9 @@ function App() {
   });
 
   const [showAddProduct, setShowAddProduct] = useState(false);
+
   const [editingProduct, setEditingProduct] = useState(null);
+
   const [search, setSearch] = useState("");
   const [darkMode, setDarkMode] = useState(false);
 
@@ -65,7 +67,7 @@ function App() {
     <div className={`container ${darkMode ? "dark-mode" : ""}`}>
 
       <nav className="header">
-        <h1>Product List</h1>
+        <h1>E-commerce Lite</h1>
 
         <button onClick={() => {
           setShowAddProduct(false);

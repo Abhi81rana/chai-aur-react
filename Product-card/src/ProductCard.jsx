@@ -17,22 +17,22 @@ function ProductCard({ product, onEdit, onDelete }) {
 
         <p>{product.description}</p>
 
-        <h2>₹{product.price}</h2>
+        <h2>${product.price}</h2>
 
-        <button className="cart-btn">
+        <button className="cart-button">
           Add to Cart
         </button>
 
         <div className="card-actions">
           <button
-            className="edit-btn"
+            className="edit-button"
             onClick={() => onEdit(product)}
           >
             ✏️ Edit
           </button>
 
           <button
-            className="delete-btn"
+            className="delete-button"
             onClick={() => onDelete(product.id)}
           >
             🗑 Delete

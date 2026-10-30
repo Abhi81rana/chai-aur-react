@@ -1,5 +1,5 @@
 
-/* GLOBAL */
+
 * {
   margin: 0;
   padding: 0;
@@ -19,7 +19,6 @@ body {
   transition: 0.3s;
 }
 
-/* HEADER */
 .header {
   display: flex;
   align-items: center;
@@ -34,8 +33,9 @@ body {
 }
 
 .header h1 {
-  color: #b52d2d;
-  font-size: 30px;
+  color: #db0909;
+  font-family: cursive;
+  font-size: 40px;
 }
 
 .header button {
@@ -50,11 +50,10 @@ body {
 }
 
 .header button:hover {
-  background: #b52d2d;
+  background: #070202;
   color: white;
 }
 
-/* PRODUCTS SECTION */
 .products-section h2 {
   margin-bottom: 18px;
   font-size: 24px;
@@ -72,19 +71,19 @@ body {
 }
 
 .search-bar:focus {
-  border-color: #b52d2d;
+  border-color: #0e43328e;
   box-shadow: 0 0 5px rgba(181,45,45,0.2);
+  border-style: groove;
 }
 
-/* PRODUCT GRID */
 .product-list {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 25px;
   align-items: stretch;
+  
 }
 
-/* ADD PRODUCT FORM */
 .add-product-form {
   max-width: 650px;
   margin: 35px auto;

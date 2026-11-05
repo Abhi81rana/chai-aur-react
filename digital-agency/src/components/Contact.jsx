@@ -67,7 +67,7 @@ function Contact() {
               <Mail className="text-lime" size={24} />
               <div>
                 <p className="text-sm text-white/40">Email</p>
-                <p className="text-white">abhi810200rana@gmail.com</p>
+                <p className="text-white">amit@gmail.com</p>
               </div>
             </div>
 

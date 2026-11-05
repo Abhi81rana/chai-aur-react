@@ -1,0 +1,59 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: #101510;
+  color: white;
+  font-family: Arial, sans-serif;
+}
+
+.container-shell {
+  width: min(1160px, calc(100% - 48px));
+  margin: auto;
+}
+
+.section-pad {
+  padding: 100px 0;
+}
+
+@media (max-width: 640px) {
+  .section-pad {
+    padding: 65px 0;
+  }
+}
+
+
+
+/* Hero Animation */
+
+.hero-orb {
+  animation: floating 6s ease-in-out infinite;
+  box-shadow:
+    0 0 60px rgba(16, 185, 129, 0.08),
+    inset 0 0 50px rgba(16, 185, 129, 0.05);
+}
+
+@keyframes floating {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+
+  50% {
+    transform: translateY(-15px);
+  }
+}
+
+html {
+  scroll-behavior: smooth;
+}

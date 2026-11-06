@@ -5,6 +5,8 @@ import Designs from "../pages/Designs";
 import About from "../pages/About";
 import Contact from "../pages/Contact";
 import DesignDetails from "../pages/DesignDetails";
+import Wishlist from "../pages/Wishlist";
+import Compare from "../pages/Compare";
 
 function AppRoutes() {
   return (
@@ -14,6 +16,8 @@ function AppRoutes() {
       <Route path="/about" element={<About />} />
       <Route path="/contact" element={<Contact />} />
       <Route path="/designs/:id" element={<DesignDetails />} />
+      <Route path="/wishlist" element={<Wishlist />} />
+      <Route path="/compare" element={<Compare />} />
     </Routes>
   );
 }

@@ -2,6 +2,7 @@ import designs from "../../data/designData.js";
 import DesignCard from "../design/DesignCard";
 import { Link } from "react-router-dom";
 import { ArrowUpRight } from "lucide-react";
+import designData from "../../data/designData";
 
 function FeaturedDesigns() {
   return (
@@ -30,10 +31,9 @@ function FeaturedDesigns() {
 
       <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-x-7 gap-y-12">
 
-        {designs.map((design) => (
+        {designData.slice(0, 24).map((design) => (
           <DesignCard key={design.id} design={design} />
         ))}
-
       </div>
 
     </section>

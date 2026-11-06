@@ -1,9 +1,8 @@
 
 @import "tailwindcss";
 
+/* Global Reset */
 * {
-  margin: 0;
-  padding: 0;
   box-sizing: border-box;
 }
 
@@ -12,11 +11,18 @@ html {
 }
 
 body {
+  margin: 0;
   background: #f5f3ee;
   color: #24231f;
   font-family: Arial, sans-serif;
 }
 
-button, a {
+button,
+a {
   cursor: pointer;
+}
+
+img {
+  display: block;
+  max-width: 100%;
 }

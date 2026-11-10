@@ -1,5 +1,5 @@
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import Navbar from "./components/Navbar";
 import ProfileHeader from "./components/ProfileHeader";
@@ -9,9 +9,21 @@ import ExperienceList from "./components/ExperienceList";
 function App() {
   const [showForm, setShowForm] = useState(false);
 
-  const [experiences, setExperiences] = useState([]);
+  const [experiences, setExperiences] = useState(() => {
+  const savedData = localStorage.getItem("experiences");
+
+    return savedData ? JSON.parse(savedData) : [];
+  });
 
   const [editingExperience, setEditingExperience] = useState(null);
+
+
+  useEffect(() => {
+    localStorage.setItem(
+      "experiences",
+      JSON.stringify(experiences)
+    );
+  }, [experiences]);
 
   // Add or Update Experience
   const addExperience = (newExperience) => {

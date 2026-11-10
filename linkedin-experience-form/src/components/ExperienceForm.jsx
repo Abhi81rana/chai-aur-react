@@ -1,8 +1,12 @@
 
 import { useState } from "react";
-import { X } from "lucide-react";
+import { BriefcaseBusiness, X, MapPin, CalendarDays } from "lucide-react";
 
 function ExperienceForm({ onClose, onSave, initialData }) {
+
+  const [description, setDescription] = useState(
+    initialData?.description || ""
+  );
 
   const [currentlyWorking, setCurrentlyWorking] = useState(
     initialData?.currentlyWorking || false
@@ -15,59 +19,58 @@ function ExperienceForm({ onClose, onSave, initialData }) {
 
     const experience = {
       id: initialData?.id || Date.now(),
-
-      title: formData.get("title"),
-      company: formData.get("company"),
+      title: formData.get("title").trim(),
+      company: formData.get("company").trim(),
       employmentType: formData.get("employmentType"),
-      location: formData.get("location"),
+      location: formData.get("location").trim(),
       startDate: formData.get("startDate"),
       endDate: currentlyWorking
         ? ""
         : formData.get("endDate"),
-
       currentlyWorking,
-
-      description: formData.get("description"),
+      description: description.trim(),
     };
 
     onSave(experience);
   };
 
   return (
-    <div className="fixed inset-0 z-[100] bg-black/50 flex items-center justify-center p-3 sm:p-5">
+    <section className="mx-3 sm:mx-4 my-4 sm:my-5 bg-white border border-gray-200 rounded-2xl shadow-sm">
 
-      <div className="bg-white w-full max-w-2xl max-h-[90vh] overflow-y-auto rounded-2xl shadow-2xl">
+      {/* Form Header */}
+      <div className="flex items-center justify-between px-5 sm:px-6 py-4 border-b">
 
-        {/* Header */}
-        <div className="flex justify-between items-center p-5 border-b">
+        <div className="flex items-center gap-3">
+          <BriefcaseBusiness size={25} className="text-gray-900" />
 
           <h2 className="text-xl font-bold text-gray-900">
             {initialData ? "Edit Experience" : "Add Experience"}
           </h2>
-
-          <button
-            type="button"
-            onClick={onClose}
-            className="p-2 rounded-full hover:bg-gray-100"
-          >
-            <X size={22} />
-          </button>
-
         </div>
 
-        <form
-          onSubmit={handleSubmit}
-          className="p-5 sm:p-7 space-y-5"
+        <button
+          type="button"
+          onClick={onClose}
+          className="p-2 rounded-full hover:bg-gray-100"
         >
+          <X size={22} />
+        </button>
 
-          <p className="text-sm text-gray-500">
-            * Indicates required
-          </p>
+      </div>
+
+      <form onSubmit={handleSubmit} className="p-5 sm:p-6">
+
+        <p className="text-xs text-gray-500 mb-4">
+          * Indicates required
+        </p>
+
+        {/* Two Column Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-5">
 
           {/* Job Title */}
           <div>
             <label className="block text-sm font-semibold mb-2">
-              Job Title *
+              Job Title <span className="text-red-500">*</span>
             </label>
 
             <input
@@ -75,14 +78,14 @@ function ExperienceForm({ onClose, onSave, initialData }) {
               defaultValue={initialData?.title || ""}
               required
               placeholder="Ex: Frontend Developer"
-              className="w-full border border-gray-300 rounded-lg px-4 py-3 outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full border border-gray-300 rounded-lg px-3 py-2.5 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
             />
           </div>
 
-          {/* Company */}
+          {/* Company Name */}
           <div>
             <label className="block text-sm font-semibold mb-2">
-              Company Name *
+              Company Name <span className="text-red-500">*</span>
             </label>
 
             <input
@@ -90,7 +93,7 @@ function ExperienceForm({ onClose, onSave, initialData }) {
               defaultValue={initialData?.company || ""}
               required
               placeholder="Ex: Google"
-              className="w-full border border-gray-300 rounded-lg px-4 py-3 outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full border border-gray-300 rounded-lg px-3 py-2.5 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
             />
           </div>
 
@@ -102,10 +105,8 @@ function ExperienceForm({ onClose, onSave, initialData }) {
 
             <select
               name="employmentType"
-              defaultValue={
-                initialData?.employmentType || "Full-time"
-              }
-              className="w-full border border-gray-300 rounded-lg px-4 py-3 outline-none focus:ring-2 focus:ring-blue-500"
+              defaultValue={initialData?.employmentType || "Full-time"}
+              className="w-full border border-gray-300 rounded-lg px-3 py-2.5 outline-none bg-white focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
             >
               <option>Full-time</option>
               <option>Part-time</option>
@@ -122,107 +123,122 @@ function ExperienceForm({ onClose, onSave, initialData }) {
               Location
             </label>
 
-            <input
-              name="location"
-              defaultValue={initialData?.location || ""}
-              placeholder="Ex: Indore, Madhya Pradesh"
-              className="w-full border border-gray-300 rounded-lg px-4 py-3 outline-none focus:ring-2 focus:ring-blue-500"
-            />
+            <div className="relative">
+              <MapPin size={17} className="absolute left-3 top-3 text-gray-500" />
+
+              <input
+                name="location"
+                defaultValue={initialData?.location || ""}
+                placeholder="Ex: Gurugram, India"
+                className="w-full border border-gray-300 rounded-lg pl-9 pr-3 py-2.5 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+              />
+            </div>
           </div>
 
-          {/* Dates */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+          {/* Start Date */}
+          <div>
+            <label className="block text-sm font-semibold mb-2">
+              Start Date <span className="text-red-500">*</span>
+            </label>
 
-            {/* Start Date */}
-            <div>
-              <label className="block text-sm font-semibold mb-2">
-                Start Date *
-              </label>
+            <div className="relative">
+              <CalendarDays size={17} className="absolute left-3 top-3 text-gray-500" />
 
               <input
                 type="date"
                 name="startDate"
                 defaultValue={initialData?.startDate || ""}
                 required
-                className="w-full border border-gray-300 rounded-lg px-4 py-3 outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full border border-gray-300 rounded-lg pl-9 pr-3 py-2.5 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
               />
             </div>
+          </div>
 
-            {/* End Date */}
-            <div>
-              <label className="block text-sm font-semibold mb-2">
-                End Date
-              </label>
+          {/* End Date */}
+          <div>
+            <label className="block text-sm font-semibold mb-2">
+              End Date
+            </label>
+
+            <div className="relative">
+              <CalendarDays size={17} className="absolute left-3 top-3 text-gray-500" />
 
               <input
                 type="date"
                 name="endDate"
                 defaultValue={initialData?.endDate || ""}
                 disabled={currentlyWorking}
-                className="w-full border border-gray-300 rounded-lg px-4 py-3 outline-none focus:ring-2 focus:ring-blue-500 disabled:bg-gray-100 disabled:cursor-not-allowed"
+                min={initialData?.startDate || undefined}
+                className="w-full border border-gray-300 rounded-lg pl-9 pr-3 py-2.5 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 disabled:bg-gray-100 disabled:text-gray-400"
               />
             </div>
-
           </div>
 
-          {/* Currently Working */}
-          <label className="flex items-center gap-3 cursor-pointer">
+        </div>
 
-            <input
-              type="checkbox"
-              name="currentlyWorking"
-              checked={currentlyWorking}
-              onChange={(e) =>
-                setCurrentlyWorking(e.target.checked)
-              }
-              className="w-4 h-4 accent-blue-600"
-            />
+        {/* Currently Working */}
+        <label className="flex items-center gap-2 mt-5 cursor-pointer w-fit">
 
-            <span className="text-sm text-gray-700">
-              I am currently working in this role
-            </span>
+          <input
+            type="checkbox"
+            name="currentlyWorking"
+            checked={currentlyWorking}
+            onChange={(e) => setCurrentlyWorking(e.target.checked)}
+            className="w-4 h-4 accent-blue-600"
+          />
 
+          <span className="text-sm text-gray-700">
+            I am currently working in this role
+          </span>
+
+        </label>
+
+        {/* Description */}
+        <div className="mt-5">
+
+          <label className="block text-sm font-semibold mb-2">
+            Description
           </label>
 
-          {/* Description */}
-          <div>
-            <label className="block text-sm font-semibold mb-2">
-              Description
-            </label>
+          <textarea
+            name="description"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            rows="3"
+            maxLength="500"
+            placeholder="Describe your responsibilities and achievements..."
+            className="w-full border border-gray-300 rounded-lg px-3 py-3 outline-none resize-y focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+          />
 
-            <textarea
-              name="description"
-              defaultValue={initialData?.description || ""}
-              rows="4"
-              maxLength="2000"
-              placeholder="Describe your responsibilities and achievements..."
-              className="w-full border border-gray-300 rounded-lg px-4 py-3 outline-none resize-none focus:ring-2 focus:ring-blue-500"
-            />
-          </div>
+          <p className="text-right text-xs text-gray-500 mt-1">
+            {description.length}/500
+          </p>
 
-          {/* Footer */}
-          <div className="flex justify-end gap-3 border-t pt-5">
+        </div>
 
-            <button
-              type="button"
-              onClick={onClose}
-              className="px-5 py-2.5 rounded-full border border-gray-300 font-semibold hover:bg-gray-100"
-            >
-              Cancel
-            </button>
+        {/* Buttons */}
+        <div className="flex flex-wrap justify-end gap-3 border-t mt-5 pt-5">
 
-            <button
-              type="submit"
-              className="px-6 py-2.5 rounded-full bg-blue-600 text-white font-semibold hover:bg-blue-700"
-            >
-              {initialData ? "Update Experience" : "Save Experience"}
-            </button>
+          <button
+            type="button"
+            onClick={onClose}
+            className="px-5 py-2.5 rounded-full border border-blue-600 text-blue-600 font-semibold hover:bg-blue-50"
+          >
+            Cancel
+          </button>
 
-          </div>
+          <button
+            type="submit"
+            className="px-6 py-2.5 rounded-full bg-blue-600 text-white font-semibold hover:bg-blue-700 shadow-sm"
+          >
+            {initialData ? "Update Experience" : "Save Experience"}
+          </button>
 
-        </form>
-      </div>
-    </div>
+        </div>
+
+      </form>
+
+    </section>
   );
 }
 

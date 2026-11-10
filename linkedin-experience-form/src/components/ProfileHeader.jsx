@@ -1,65 +1,92 @@
 
-import { MapPin, Plus, Pencil } from "lucide-react";
+import { useState } from "react";
+import { MapPin, Pencil, Plus } from "lucide-react";
 
 function ProfileHeader({ onAddExperience }) {
-  return (
-    <div className="bg-white rounded-xl shadow-sm overflow-hidden">
+  const [activeTab, setActiveTab] = useState("Experience");
 
-      {/* Cover Image */}
-      <div className="h-40 sm:h-52 bg-gradient-to-r from-blue-700 via-blue-500 to-cyan-400 relative">
-        <div className="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_top_right,white,transparent_50%)]" />
-      </div>
+  const tabs = [
+    "About",
+    "Experience",
+    "Skills",
+    "Education",
+    "Activity",
+  ];
+
+  return (
+    <section className="bg-white border-b border-gray-200">
 
       {/* Profile Details */}
-      <div className="px-5 sm:px-8 pb-6">
+      <div className="px-5 sm:px-8 pt-6 pb-5">
 
-        <div className="flex justify-between items-end">
+        <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-5">
 
-          <div className="-mt-16 relative">
-            <img
-              src="https://i.pravatar.cc/150?img=12"
-              alt="Profile"
-              className="w-28 h-28 sm:w-36 sm:h-36 rounded-full border-4 border-white object-cover"
-            />
+          <div className="flex items-center gap-4">
+
+            <div className="relative shrink-0">
+              <img
+                src="https://i.pravatar.cc/150?img=12"
+                alt="Profile"
+                className="w-20 h-20 sm:w-28 sm:h-28 rounded-full border-4 border-white object-cover shadow-sm"
+              />
+
+              <span className="absolute bottom-1 right-1 w-5 h-5 bg-green-500 border-2 border-white rounded-full" />
+            </div>
+
+            <div className="min-w-0">
+              <h2 className="text-xl sm:text-2xl font-bold text-gray-900">
+                IT Ash
+              </h2>
+
+              <p className="text-sm sm:text-base font-medium text-gray-800 mt-1">
+                Full Stack Developer
+              </p>
+
+              <p className="text-xs sm:text-sm text-gray-500 mt-1">
+                Building AI-Powered Solutions
+              </p>
+
+            </div>
+
           </div>
 
-          <button className="text-gray-500 hover:text-blue-600 p-2">
-            <Pencil size={20} />
+          <button
+            onClick={onAddExperience}
+            className="flex items-center justify-center gap-2 border border-blue-600 text-blue-600 rounded-full px-5 py-2.5 font-semibold hover:bg-blue-50 transition w-full sm:w-auto"
+          >
+            <Pencil size={17} />
+            Add experience
           </button>
 
         </div>
 
-        <div className="mt-4">
-          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">
-            Abhishek Kumar Rana
-          </h1>
-
-          <p className="text-gray-600 mt-2">
-            Frontend Developer | React.js Developer
-          </p>
-
-          <div className="flex items-center gap-2 text-gray-500 text-sm mt-2">
-            <MapPin size={16} />
-            Indore, Madhya Pradesh, India
-          </div>
-
-          <div className="flex flex-wrap gap-3 mt-5">
-            <button
-              onClick={onAddExperience}
-              className="flex items-center gap-2 bg-blue-600 text-white px-5 py-2.5 rounded-full hover:bg-blue-700 transition"
-            >
-              <Plus size={18} />
-              Add Experience
-            </button>
-
-            <button className="border border-blue-600 text-blue-600 px-5 py-2.5 rounded-full hover:bg-blue-50 transition">
-              More
-            </button>
-          </div>
+        <div className="flex items-center gap-2 text-xs sm:text-sm text-gray-500 mt-4">
+          <MapPin size={15} />
+          Gurugram, India
         </div>
 
       </div>
-    </div>
+
+      {/* Profile Tabs */}
+      <div className="flex overflow-x-auto border-t border-gray-100 px-3 sm:px-5">
+
+        {tabs.map((tab) => (
+          <button
+            key={tab}
+            onClick={() => setActiveTab(tab)}
+            className={`shrink-0 px-4 sm:px-5 py-4 text-sm font-semibold border-b-2 transition ${
+              activeTab === tab
+                ? "text-blue-700 border-blue-600"
+                : "text-gray-600 border-transparent hover:text-blue-600"
+            }`}
+          >
+            {tab}
+          </button>
+        ))}
+
+      </div>
+
+    </section>
   );
 }
 

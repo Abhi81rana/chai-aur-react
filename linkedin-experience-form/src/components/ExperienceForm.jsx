@@ -143,6 +143,16 @@ function ExperienceForm({ onClose, onSave }) {
             <input
               type="checkbox"
               name="currentlyWorking"
+              onChange={(e) => {
+                const endDate = document.querySelector(
+                  'input[name="endDate"]'
+                );
+
+                if (endDate) {
+                  endDate.disabled = e.target.checked;
+                  if (e.target.checked) endDate.value = "";
+                }
+              }}
               className="w-4 h-4 accent-blue-600"
             />
 

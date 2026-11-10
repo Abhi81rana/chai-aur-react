@@ -1,66 +1,195 @@
 
-import { MapPin, Plus, Pencil } from "lucide-react";
+import { X } from "lucide-react";
 
-function ProfileHeader({ onAddExperience }) {
+function ExperienceForm({ onClose, onSave }) {
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    const formData = new FormData(e.target);
+
+    const experience = {
+      id: Date.now(),
+      title: formData.get("title"),
+      company: formData.get("company"),
+      employmentType: formData.get("employmentType"),
+      location: formData.get("location"),
+      startDate: formData.get("startDate"),
+      endDate: formData.get("endDate"),
+      currentlyWorking: formData.get("currentlyWorking") === "on",
+      description: formData.get("description"),
+    };
+
+    onSave(experience);
+  };
+
   return (
-    <div className="bg-white rounded-xl shadow-sm overflow-hidden">
+    <div className="fixed inset-0 z-[100] bg-black/50 flex items-center justify-center p-3 sm:p-5">
 
-      {/* Cover Image */}
-      <div className="h-40 sm:h-52 bg-gradient-to-r from-blue-700 via-blue-500 to-cyan-400 relative">
-        <div className="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_top_right,white,transparent_50%)]" />
-      </div>
+      <div className="bg-white w-full max-w-2xl max-h-[90vh] overflow-y-auto rounded-2xl shadow-2xl">
 
-      {/* Profile Details */}
-      <div className="px-5 sm:px-8 pb-6">
+        {/* Header */}
+        <div className="flex justify-between items-center p-5 border-b">
+          <h2 className="text-xl font-bold text-gray-900">
+            Add Experience
+          </h2>
 
-        <div className="flex justify-between items-end">
+          <button
+            type="button"
+            onClick={onClose}
+            className="p-2 rounded-full hover:bg-gray-100"
+          >
+            <X size={22} />
+          </button>
+        </div>
 
-          <div className="-mt-16 relative">
-            <img
-              src="https://i.pravatar.cc/150?img=12"
-              alt="Profile"
-              className="w-28 h-28 sm:w-36 sm:h-36 rounded-full border-4 border-white object-cover"
+        <form onSubmit={handleSubmit} className="p-5 sm:p-7 space-y-5">
+
+          <p className="text-sm text-gray-500">
+            * Indicates required
+          </p>
+
+          {/* Job Title */}
+          <div>
+            <label className="block text-sm font-semibold mb-2">
+              Job Title *
+            </label>
+
+            <input
+              name="title"
+              required
+              placeholder="Ex: Frontend Developer"
+              className="w-full border border-gray-300 rounded-lg px-4 py-3 outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
 
-          <button className="text-gray-500 hover:text-blue-600 p-2">
-            <Pencil size={20} />
-          </button>
+          {/* Company */}
+          <div>
+            <label className="block text-sm font-semibold mb-2">
+              Company Name *
+            </label>
 
-        </div>
-
-        <div className="mt-4">
-          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">
-            Abhishek Kumar Rana
-          </h1>
-
-          <p className="text-gray-600 mt-2">
-            Frontend Developer | React.js Developer
-          </p>
-
-          <div className="flex items-center gap-2 text-gray-500 text-sm mt-2">
-            <MapPin size={16} />
-            Indore, Madhya Pradesh, India
+            <input
+              name="company"
+              required
+              placeholder="Ex: Google"
+              className="w-full border border-gray-300 rounded-lg px-4 py-3 outline-none focus:ring-2 focus:ring-blue-500"
+            />
           </div>
 
-          <div className="flex flex-wrap gap-3 mt-5">
-            <button
-              onClick={onAddExperience}
-              className="flex items-center gap-2 bg-blue-600 text-white px-5 py-2.5 rounded-full hover:bg-blue-700 transition"
+          {/* Employment Type */}
+          <div>
+            <label className="block text-sm font-semibold mb-2">
+              Employment Type
+            </label>
+
+            <select
+              name="employmentType"
+              className="w-full border border-gray-300 rounded-lg px-4 py-3 outline-none focus:ring-2 focus:ring-blue-500"
             >
-              <Plus size={18} />
-              Add Experience
-            </button>
-
-            <button className="border border-blue-600 text-blue-600 px-5 py-2.5 rounded-full hover:bg-blue-50 transition">
-              More
-            </button>
+              <option>Full-time</option>
+              <option>Part-time</option>
+              <option>Self-employed</option>
+              <option>Freelance</option>
+              <option>Internship</option>
+              <option>Contract</option>
+            </select>
           </div>
-        </div>
 
+          {/* Location */}
+          <div>
+            <label className="block text-sm font-semibold mb-2">
+              Location
+            </label>
+
+            <input
+              name="location"
+              placeholder="Ex: Indore, Madhya Pradesh"
+              className="w-full border border-gray-300 rounded-lg px-4 py-3 outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
+
+          {/* Dates */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+
+            <div>
+              <label className="block text-sm font-semibold mb-2">
+                Start Date *
+              </label>
+
+              <input
+                type="date"
+                name="startDate"
+                required
+                className="w-full border border-gray-300 rounded-lg px-4 py-3 outline-none focus:ring-2 focus:ring-blue-500"
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-semibold mb-2">
+                End Date
+              </label>
+
+              <input
+                type="date"
+                name="endDate"
+                className="w-full border border-gray-300 rounded-lg px-4 py-3 outline-none focus:ring-2 focus:ring-blue-500"
+              />
+            </div>
+
+          </div>
+
+          {/* Currently Working */}
+          <label className="flex items-center gap-3 cursor-pointer">
+            <input
+              type="checkbox"
+              name="currentlyWorking"
+              className="w-4 h-4 accent-blue-600"
+            />
+
+            <span className="text-sm text-gray-700">
+              I am currently working in this role
+            </span>
+          </label>
+
+          {/* Description */}
+          <div>
+            <label className="block text-sm font-semibold mb-2">
+              Description
+            </label>
+
+            <textarea
+              name="description"
+              rows="4"
+              maxLength="2000"
+              placeholder="Describe your responsibilities and achievements..."
+              className="w-full border border-gray-300 rounded-lg px-4 py-3 outline-none resize-none focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
+
+          {/* Footer */}
+          <div className="flex justify-end gap-3 border-t pt-5">
+
+            <button
+              type="button"
+              onClick={onClose}
+              className="px-5 py-2.5 rounded-full border border-gray-300 font-semibold hover:bg-gray-100"
+            >
+              Cancel
+            </button>
+
+            <button
+              type="submit"
+              className="px-6 py-2.5 rounded-full bg-blue-600 text-white font-semibold hover:bg-blue-700"
+            >
+              Save
+            </button>
+
+          </div>
+
+        </form>
       </div>
     </div>
   );
 }
 
-export default ProfileHeader;
+export default ExperienceForm;

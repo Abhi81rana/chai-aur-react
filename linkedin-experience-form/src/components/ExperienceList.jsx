@@ -2,10 +2,11 @@
 import {
   BriefcaseBusiness,
   Trash2,
-  MapPin
+  MapPin,
+  Pencil,
 } from "lucide-react";
 
-function ExperienceList({ experiences, onDelete }) {
+function ExperienceList({ experiences, onDelete, onEdit }) {
 
   return (
     <section className="bg-white rounded-xl shadow-sm p-5 sm:p-7 mt-6">
@@ -68,6 +69,14 @@ function ExperienceList({ experiences, onDelete }) {
               </p>
 
             </div>
+
+            <button
+              onClick={() => onEdit(item)}
+              className="self-start p-2 text-gray-500 hover:text-blue-600"
+              title="Edit Experience"
+            >
+              <Pencil size={19} />
+            </button>
 
             <button
               onClick={() => onDelete(item.id)}

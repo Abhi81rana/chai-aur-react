@@ -1,21 +1,32 @@
 
+import { useState } from "react";
 import { X } from "lucide-react";
 
-function ExperienceForm({ onClose, onSave }) {
+function ExperienceForm({ onClose, onSave, initialData }) {
+
+  const [currentlyWorking, setCurrentlyWorking] = useState(
+    initialData?.currentlyWorking || false
+  );
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
     const formData = new FormData(e.target);
 
     const experience = {
-      id: Date.now(),
+      id: initialData?.id || Date.now(),
+
       title: formData.get("title"),
       company: formData.get("company"),
       employmentType: formData.get("employmentType"),
       location: formData.get("location"),
       startDate: formData.get("startDate"),
-      endDate: formData.get("endDate"),
-      currentlyWorking: formData.get("currentlyWorking") === "on",
+      endDate: currentlyWorking
+        ? ""
+        : formData.get("endDate"),
+
+      currentlyWorking,
+
       description: formData.get("description"),
     };
 
@@ -29,8 +40,9 @@ function ExperienceForm({ onClose, onSave }) {
 
         {/* Header */}
         <div className="flex justify-between items-center p-5 border-b">
+
           <h2 className="text-xl font-bold text-gray-900">
-            Add Experience
+            {initialData ? "Edit Experience" : "Add Experience"}
           </h2>
 
           <button
@@ -40,9 +52,13 @@ function ExperienceForm({ onClose, onSave }) {
           >
             <X size={22} />
           </button>
+
         </div>
 
-        <form onSubmit={handleSubmit} className="p-5 sm:p-7 space-y-5">
+        <form
+          onSubmit={handleSubmit}
+          className="p-5 sm:p-7 space-y-5"
+        >
 
           <p className="text-sm text-gray-500">
             * Indicates required
@@ -56,6 +72,7 @@ function ExperienceForm({ onClose, onSave }) {
 
             <input
               name="title"
+              defaultValue={initialData?.title || ""}
               required
               placeholder="Ex: Frontend Developer"
               className="w-full border border-gray-300 rounded-lg px-4 py-3 outline-none focus:ring-2 focus:ring-blue-500"
@@ -70,6 +87,7 @@ function ExperienceForm({ onClose, onSave }) {
 
             <input
               name="company"
+              defaultValue={initialData?.company || ""}
               required
               placeholder="Ex: Google"
               className="w-full border border-gray-300 rounded-lg px-4 py-3 outline-none focus:ring-2 focus:ring-blue-500"
@@ -84,6 +102,9 @@ function ExperienceForm({ onClose, onSave }) {
 
             <select
               name="employmentType"
+              defaultValue={
+                initialData?.employmentType || "Full-time"
+              }
               className="w-full border border-gray-300 rounded-lg px-4 py-3 outline-none focus:ring-2 focus:ring-blue-500"
             >
               <option>Full-time</option>
@@ -103,6 +124,7 @@ function ExperienceForm({ onClose, onSave }) {
 
             <input
               name="location"
+              defaultValue={initialData?.location || ""}
               placeholder="Ex: Indore, Madhya Pradesh"
               className="w-full border border-gray-300 rounded-lg px-4 py-3 outline-none focus:ring-2 focus:ring-blue-500"
             />
@@ -111,6 +133,7 @@ function ExperienceForm({ onClose, onSave }) {
           {/* Dates */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
 
+            {/* Start Date */}
             <div>
               <label className="block text-sm font-semibold mb-2">
                 Start Date *
@@ -119,11 +142,13 @@ function ExperienceForm({ onClose, onSave }) {
               <input
                 type="date"
                 name="startDate"
+                defaultValue={initialData?.startDate || ""}
                 required
                 className="w-full border border-gray-300 rounded-lg px-4 py-3 outline-none focus:ring-2 focus:ring-blue-500"
               />
             </div>
 
+            {/* End Date */}
             <div>
               <label className="block text-sm font-semibold mb-2">
                 End Date
@@ -132,7 +157,9 @@ function ExperienceForm({ onClose, onSave }) {
               <input
                 type="date"
                 name="endDate"
-                className="w-full border border-gray-300 rounded-lg px-4 py-3 outline-none focus:ring-2 focus:ring-blue-500"
+                defaultValue={initialData?.endDate || ""}
+                disabled={currentlyWorking}
+                className="w-full border border-gray-300 rounded-lg px-4 py-3 outline-none focus:ring-2 focus:ring-blue-500 disabled:bg-gray-100 disabled:cursor-not-allowed"
               />
             </div>
 
@@ -140,25 +167,21 @@ function ExperienceForm({ onClose, onSave }) {
 
           {/* Currently Working */}
           <label className="flex items-center gap-3 cursor-pointer">
+
             <input
               type="checkbox"
               name="currentlyWorking"
-              onChange={(e) => {
-                const endDate = document.querySelector(
-                  'input[name="endDate"]'
-                );
-
-                if (endDate) {
-                  endDate.disabled = e.target.checked;
-                  if (e.target.checked) endDate.value = "";
-                }
-              }}
+              checked={currentlyWorking}
+              onChange={(e) =>
+                setCurrentlyWorking(e.target.checked)
+              }
               className="w-4 h-4 accent-blue-600"
             />
 
             <span className="text-sm text-gray-700">
               I am currently working in this role
             </span>
+
           </label>
 
           {/* Description */}
@@ -169,6 +192,7 @@ function ExperienceForm({ onClose, onSave }) {
 
             <textarea
               name="description"
+              defaultValue={initialData?.description || ""}
               rows="4"
               maxLength="2000"
               placeholder="Describe your responsibilities and achievements..."
@@ -191,7 +215,7 @@ function ExperienceForm({ onClose, onSave }) {
               type="submit"
               className="px-6 py-2.5 rounded-full bg-blue-600 text-white font-semibold hover:bg-blue-700"
             >
-              Save
+              {initialData ? "Update Experience" : "Save Experience"}
             </button>
 
           </div>

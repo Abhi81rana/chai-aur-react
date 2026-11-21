@@ -15,7 +15,7 @@ import Navbar from "./components/Navbar";
 import NewsCard from "./components/NewsCard";
 
 const API = import.meta.env.VITE_NEWS_API_URL;
-
+const UNSPLASH_KEY = import.meta.env.VITE_UNSPLASH_ACCESS_KEY;
 const categories = [
   { label: "Latest", query: "" },
   { label: "React", query: "React" },
@@ -102,10 +102,50 @@ function App() {
 
       const results = data.hits || [];
 
-      setNews((previous) =>
-        append ? [...previous, ...results] : results
-      );
+            let imageResults = [];
 
+      if (UNSPLASH_KEY) {
+        try {
+          const imageParams = new URLSearchParams({
+            query: query || "technology",
+            per_page: "30",
+            orientation: "landscape",
+          });
+
+          const imageResponse = await fetch(
+            `https://api.unsplash.com/search/photos?${imageParams}`,
+            {
+              headers: {
+                Authorization: `Client-ID ${UNSPLASH_KEY}`,
+              },
+            }
+          );
+
+          if (imageResponse.ok) {
+            const imageData = await imageResponse.json();
+            imageResults = imageData.results || [];
+          }
+        } catch (imageError) {
+          console.error("Image fetching failed:", imageError);
+        }
+      }
+
+      const newsWithImages = results.map((item, index) => {
+        const photo = imageResults[index % (imageResults.length || 1)];
+
+        return {
+          ...item,
+          imageUrl: photo?.urls?.regular || "",
+          imageAlt: photo?.alt_description || item.title,
+          imageCredit: photo?.links?.html || "",
+        };
+      });
+
+      setNews((previous) =>
+        append
+          ? [...previous, ...newsWithImages]
+          : newsWithImages
+      );
       setPage(pageNumber);
       setHasMore(pageNumber + 1 < data.nbPages);
 
@@ -427,12 +467,19 @@ function App() {
                   </div>
                 </div>
 
-                <div className="bg-gradient-to-br from-indigo-950 to-indigo-600 min-h-64 flex flex-col items-center justify-center text-indigo-200">
-                  <Newspaper size={100} strokeWidth={1} />
-                  <span className="text-xs font-bold tracking-[4px] mt-5">
-                    THE DAILY BYTE
-                  </span>
-                </div>
+                <div className="relative min-h-64 md:min-h-full bg-indigo-950 overflow-hidden">
+                {featured.imageUrl ? (
+                  <img
+                    src={featured.imageUrl}
+                    alt={featured.imageAlt || featured.title}
+                    className="absolute inset-0 w-full h-full object-cover"
+                  />
+                ) : (
+                  <div className="min-h-64 h-full flex items-center justify-center text-white text-3xl font-bold">
+                    DailyByte
+                  </div>
+                )}
+              </div>
               </article>
             )}
 

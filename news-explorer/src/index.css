@@ -1,11 +1,29 @@
 
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 * {
   box-sizing: border-box;
+  scroll-behavior: smooth;
 }
 
 body {
   margin: 0;
-  font-family: Inter, sans-serif;
+  font-family: Inter, Arial, sans-serif;
+  background: #f8fafc;
+}
+
+button,
+input {
+  font-family: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+::selection {
+  background: #c7d2fe;
+  color: #312e81;
 }
